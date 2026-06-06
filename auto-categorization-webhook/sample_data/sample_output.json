@@ -1,0 +1,12 @@
+{
+  "ticket_id": "TKT-DEMO-001",
+  "category": "Authentication",
+  "subcategory": "Password Reset",
+  "priority": "High",
+  "confidence": 0.94,
+  "model_used": "llama3",
+  "processing_time_ms": 1250,
+  "timestamp": "2026-06-06T10:30:00",
+  "attempts": 1,
+  "agent_reasoning": "Step 1: Received ticket 'Unable to login after password reset' - beginning classification\nStep 2: Classification attempt 1\n  -> Using few-shot classification prompt with 22 examples\n  -> Result: Authentication/Password Reset (confidence: 0.94)\nStep 3: Confidence 0.94 >= threshold 0.60 - accepting result\nFinal: Classification complete in 1250ms after 1 attempt(s)"
+}

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto-Categorization Webhook | Team 15</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <span class="logo-icon">🎫</span>
+        <div>
+          <h1>Auto-Categorization Webhook</h1>
+          <p>AI-Powered Support Ticket Classifier | Team 15 · SD-02</p>
+        </div>
+      </div>
+      <div class="status-badge" id="statusBadge">
+        <span class="dot"></span> Checking...
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Classify Section -->
+    <section class="card" id="classifySection">
+      <h2>🔍 Classify Ticket</h2>
+      <div class="form-group">
+        <label for="ticketId">Ticket ID</label>
+        <input type="text" id="ticketId" placeholder="e.g. TKT-001" value="TKT-001" />
+      </div>
+      <div class="form-group">
+        <label for="ticketTitle">Title *</label>
+        <input type="text" id="ticketTitle" placeholder="e.g. Unable to login after password reset" />
+      </div>
+      <div class="form-group">
+        <label for="ticketDesc">Description</label>
+        <textarea id="ticketDesc" rows="3" placeholder="Describe the issue in detail..."></textarea>
+      </div>
+      <div class="button-row">
+        <button class="btn primary" onclick="classifyTicket()">
+          <span>⚡ Classify</span>
+        </button>
+        <button class="btn secondary" onclick="loadSample()">Load Sample</button>
+        <button class="btn secondary" onclick="clearForm()">Clear</button>
+      </div>
+      <div id="loader" class="loader hidden">
+        <div class="spinner"></div>
+        <span>AI Agent processing...</span>
+      </div>
+    </section>
+
+    <!-- Result Section -->
+    <section class="card hidden" id="resultSection">
+      <h2>✅ Classification Result</h2>
+      <div class="result-grid" id="resultGrid"></div>
+      <div class="reasoning-box hidden" id="reasoningBox">
+        <h3>🧠 Agent Reasoning</h3>
+        <pre id="reasoningText"></pre>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="card" id="statsSection">
+      <div class="stats-header">
+        <h2>📊 Monitoring Dashboard</h2>
+        <button class="btn small" onclick="loadStats()">↻ Refresh</button>
+      </div>
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-box"><div class="stat-val" id="totalTickets">—</div><div class="stat-lbl">Total Tickets</div></div>
+        <div class="stat-box"><div class="stat-val" id="avgConf">—</div><div class="stat-lbl">Avg Confidence</div></div>
+        <div class="stat-box"><div class="stat-val" id="topCategory">—</div><div class="stat-lbl">Top Category</div></div>
+        <div class="stat-box"><div class="stat-val" id="criticalCount">—</div><div class="stat-lbl">Critical Tickets</div></div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-box">
+          <h3>Category Distribution</h3>
+          <canvas id="categoryChart"></canvas>
+        </div>
+        <div class="chart-box">
+          <h3>Priority Distribution</h3>
+          <canvas id="priorityChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Recent Tickets -->
+    <section class="card" id="recentSection">
+      <h2>🕒 Recent Classifications</h2>
+      <div class="table-wrap">
+        <table id="recentTable">
+          <thead>
+            <tr>
+              <th>Ticket ID</th><th>Title</th><th>Category</th>
+              <th>Priority</th><th>Confidence</th><th>Model</th><th>Time</th>
+            </tr>
+          </thead>
+          <tbody id="recentBody">
+            <tr><td colspan="7" class="empty">No tickets yet</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Auto-Categorization Webhook · Team 15 · Challenge SD-02 · Built with FastAPI + Ollama + Few-Shot AI</p>
+    <p><a href="/docs" target="_blank">API Docs (Swagger)</a> · <a href="/redoc" target="_blank">ReDoc</a></p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
