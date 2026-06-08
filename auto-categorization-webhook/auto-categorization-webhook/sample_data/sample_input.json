@@ -1,5 +1,0 @@
-{
-  "ticket_id": "TKT-DEMO-001",
-  "title": "Unable to login after password reset",
-  "description": "User cannot access the portal. After performing a password reset via the 'Forgot Password' link, the user receives a confirmation email, but when trying to log in with the new password, the system shows 'Invalid credentials'. The issue has been occurring since this morning."
-}
