@@ -25,15 +25,14 @@ body {
   line-height: 1.6;
 }
 
-/* HEADER */
+  /* HEADER */
 header {
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  background: rgba(30, 27, 75, 0.95);
   border-bottom: 1px solid var(--border);
   padding: 20px 32px;
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(12px);
 }
 .header-content {
   max-width: 1200px;
@@ -271,6 +270,54 @@ main {
 .chart-box canvas { max-height: 220px; }
 
 /* TABLE */
+.table-wrap { overflow-x: auto; }
+.table-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.filter-group {
+  position: relative;
+}
+.filter-toggle {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.filter-toggle:hover {
+  border-color: var(--accent);
+}
+.filter-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 180px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 10;
+  padding: 8px 0;
+}
+.filter-option {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.filter-option:hover {
+  background: rgba(255,255,255,0.05);
+}
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
 thead th {

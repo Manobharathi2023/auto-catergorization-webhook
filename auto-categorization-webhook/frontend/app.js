@@ -1,7 +1,8 @@
 // Auto-Categorization Webhook - Frontend App
 // Team 15 | SD-02
 
-const API = "";  // same origin
+// API base (same origin). Keep trailing slash handling out of Chart.js etc.
+const API = "";
 let categoryChart = null;
 let priorityChart = null;
 
@@ -13,13 +14,56 @@ const SAMPLES = [
   { id: "TKT-005", title: "Need access to finance reporting module", desc: "I have been assigned as Finance Analyst and need access to the financial reporting dashboard." },
 ];
 let sampleIdx = 0;
+let recentTicketsCache = [];
+let activeCategoryFilter = "";
+let activePriorityFilter = "";
 
 // Initialize
 document.addEventListener("DOMContentLoaded", () => {
   checkHealth();
   loadStats();
   setInterval(checkHealth, 30000);
+  document.addEventListener("click", (event) => {
+    if (!event.target.closest(".filter-group")) {
+      closeAllDropdowns();
+    }
+  });
 });
+
+function toggleFilterMenu(menuId) {
+  const menu = document.getElementById(menuId);
+  closeAllDropdowns();
+  menu.classList.toggle("hidden");
+}
+
+function closeAllDropdowns() {
+  const menus = ["categoryFilter", "priorityFilter"];
+  menus.forEach((id) => document.getElementById(id)?.classList.add("hidden"));
+}
+
+function applyTableFilter(type, value) {
+  if (type === "category") activeCategoryFilter = value || "";
+  if (type === "priority") activePriorityFilter = value || "";
+  updateFilterToggleLabels();
+  renderRecentTable(recentTicketsCache);
+  closeAllDropdowns();
+}
+
+function clearTableFilters() {
+  activeCategoryFilter = "";
+  activePriorityFilter = "";
+  updateFilterToggleLabels();
+  renderRecentTable(recentTicketsCache);
+}
+
+function updateFilterToggleLabels() {
+  document.getElementById("categoryToggleBtn").textContent = activeCategoryFilter
+    ? `Category ▾: ${activeCategoryFilter}`
+    : `Category ▾`;
+  document.getElementById("priorityToggleBtn").textContent = activePriorityFilter
+    ? `Priority ▾: ${activePriorityFilter}`
+    : `Priority ▾`;
+}
 
 // Health check
 async function checkHealth() {
@@ -162,7 +206,9 @@ async function loadStats() {
 
     renderCategoryChart(cats);
     renderPriorityChart(prios);
-    renderRecentTable(data.recent_tickets || []);
+    recentTicketsCache = data.recent_tickets || [];
+    renderRecentTable(recentTicketsCache);
+    updateFilterToggleLabels();
   } catch (err) {
     console.warn("Stats load error:", err);
   }
@@ -224,11 +270,25 @@ function renderPriorityChart(data) {
 
 function renderRecentTable(tickets) {
   const tbody = document.getElementById("recentBody");
-  if (!tickets.length) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty">No tickets classified yet</td></tr>`;
+  const filteredTickets = tickets.filter((t) => {
+    if (activeCategoryFilter && (!t.category || t.category.toLowerCase() !== activeCategoryFilter.toLowerCase())) {
+      return false;
+    }
+    if (activePriorityFilter && (!t.priority || t.priority.toLowerCase() !== activePriorityFilter.toLowerCase())) {
+      return false;
+    }
+    return true;
+  });
+
+  if (!filteredTickets.length) {
+    const message = activeCategoryFilter || activePriorityFilter
+      ? "No tickets match the selected filters"
+      : "No tickets classified yet";
+    tbody.innerHTML = `<tr><td colspan="7" class="empty">${message}</td></tr>`;
     return;
   }
-  tbody.innerHTML = tickets.map((t) => {
+
+  tbody.innerHTML = filteredTickets.map((t) => {
     const conf = Math.round((t.confidence || 0) * 100);
     const date = t.created_at ? new Date(t.created_at).toLocaleString() : "—";
     return `

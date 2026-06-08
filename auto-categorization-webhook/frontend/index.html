@@ -14,7 +14,7 @@
         <span class="logo-icon">🎫</span>
         <div>
           <h1>Auto-Categorization Webhook</h1>
-          <p>AI-Powered Support Ticket Classifier | Team 15 · SD-02</p>
+          <p>AI-Powered Support Ticket Classifier</p>
         </div>
       </div>
       <div class="status-badge" id="statusBadge">
@@ -88,7 +88,30 @@
 
     <!-- Recent Tickets -->
     <section class="card" id="recentSection">
-      <h2>🕒 Recent Classifications</h2>
+      <h2>Issue Classifications</h2>
+      <div class="table-filters">
+        <div class="filter-group">
+          <button type="button" class="filter-toggle" id="categoryToggleBtn" onclick="toggleFilterMenu('categoryFilter')">Category ▾</button>
+          <div class="filter-dropdown hidden" id="categoryFilter">
+            <button type="button" class="filter-option" onclick="applyTableFilter('category', '')">All Categories</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('category', 'General Inquiry')">General Inquiry</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('category', 'Technical')">Technical</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('category', 'Billing')">Billing</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('category', 'Authentication')">Authentication</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <button type="button" class="filter-toggle" id="priorityToggleBtn" onclick="toggleFilterMenu('priorityFilter')">Priority ▾</button>
+          <div class="filter-dropdown hidden" id="priorityFilter">
+            <button type="button" class="filter-option" onclick="applyTableFilter('priority', '')">All Priorities</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('priority', 'Critical')">Critical</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('priority', 'High')">High</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('priority', 'Medium')">Medium</button>
+            <button type="button" class="filter-option" onclick="applyTableFilter('priority', 'Low')">Low</button>
+          </div>
+        </div>
+        <button type="button" class="btn small secondary" onclick="clearTableFilters()">Clear Filters</button>
+      </div>
       <div class="table-wrap">
         <table id="recentTable">
           <thead>
@@ -110,6 +133,6 @@
     <p><a href="/docs" target="_blank">API Docs (Swagger)</a> · <a href="/redoc" target="_blank">ReDoc</a></p>
   </footer>
 
-  <script src="/static/app.js"></script>
+<script src="/static/app.js"></script>
 </body>
 </html>
